@@ -7,12 +7,15 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
+  
   <div id="startScreen" style="position:fixed; left:0; top:0; width:100vw; height:100vh; background:rgba(0,0,0,0.7); display:flex; flex-direction:column; align-items:center; justify-content:center; z-index:10;">
     
     <button id="facil"  style="font-size:2rem; padding:1rem 2rem; margin-bottom: 20px;">Fácil</button>
     <button id="medio"  style="font-size:2rem; padding:1rem 2rem; margin-bottom: 20px;">Médio</button>
     <button id="dificil"  style="font-size:2rem; padding:1rem 2rem;">Difícil</button>
-</div>
+    
+</div>  <!-- Voltar fora do startScreen para permanecer visível independente da overlay -->
+  <button id="voltar">Voltar</button>
   </div>  
   <canvas id="gameCanvas"></canvas>
   <script src="script.js"></script>

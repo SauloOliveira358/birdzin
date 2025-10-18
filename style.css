@@ -1,5 +1,6 @@
 body {
-  background-color: #000000; /* Céu azul */
+  background-color: #000000;
+  /* Céu azul */
   display: flex;
   background: url('backgroud.png') no-repeat center center fixed;
   justify-content: center;
@@ -12,4 +13,24 @@ canvas {
   display: block;
   width: 100vw;
   height: 100vh;
+}
+
+/* botão Voltar fixo e visível acima da overlay */
+#voltar {
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  display: none;
+  /* mostrado via JS somente quando necessário */
+  z-index: 9999;
+  /* acima do startScreen (z-index:10) */
+  font-size: 2rem;
+  padding: 1rem 2rem;
+  border: none;
+  border-radius: 8px;
+  background: #ff6b6b;
+  color: #fff;
+  cursor: pointer;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
 }

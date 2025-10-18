@@ -13,7 +13,7 @@ const startBtn = document.getElementById('startBtn');
 const facilBtn = document.getElementById('facil'); // botão fácil
 const medioBtn = document.getElementById('medio'); // botão médio
 const dificilBtn = document.getElementById('dificil'); // botão difícil
-
+const voltarBtn = document.getElementById('voltar'); // botão voltar
 // Pega o contexto 2D do canvas
 const ctx = canvas.getContext('2d');
 
@@ -38,6 +38,10 @@ let gameOver = false;
 let pipeImg = new Image();
 pipeImg.src = 'testest.png';
 
+
+
+
+
 // --- Dificuldades ---
 facilBtn.addEventListener('click', () => {
   pipeGap = 250; // fácil
@@ -61,6 +65,9 @@ dificilBtn.addEventListener('click', () => {
   startScreen.style.display = 'none';
 });
 
+voltarBtn.addEventListener('click', () => {
+  location.reload();
+});
 // Ajusta o tamanho do canvas na inicialização e ao redimensionar
 resizeCanvas();
 window.addEventListener('resize', resizeCanvas);
@@ -163,10 +170,13 @@ function drawScore() {
 function update() {
   if (gameOver) {
     ctx.fillStyle = 'red';
+    ctx.font = '100px Arial';
+    ctx.fillText('Game Over💀', 500, 200);
     ctx.font = '30px Arial';
-    ctx.fillText('Game Over', 120, 250);
-    ctx.font = '18px Arial';
-    ctx.fillText('Pressione espaço para reiniciar', 75, 280);
+    ctx.fillText('Pressione espaço para reiniciar', 560, 300);
+    
+    voltarBtn.style.display = 'block';
+    
     return;
   }
 
@@ -198,6 +208,7 @@ function loop() {
 document.addEventListener('keydown', (e) => {
   if (e.code === 'Space') {
     if (gameOver) {
+      voltarBtn.style.display = 'none';
       pipes.length = 0;
       bird.y = 150;
       bird.speed = 0;
