@@ -175,6 +175,7 @@ function update() {
     ctx.font = '30px Arial';
     ctx.fillText('Pressione espaço para reiniciar', 560, 300);
     
+    
     voltarBtn.style.display = 'block';
     
     return;
@@ -182,9 +183,15 @@ function update() {
 
   bird.update();
   updatePipes();
-
-  if (frames % 90 === 0) {
-    score++;
+if(frames == 450){
+  score++;
+}
+  if (frames >= 451) {
+   
+    if(String(frames).endsWith('50')){
+      score++;
+    }
+    
   }
 }
 
