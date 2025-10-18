@@ -42,7 +42,8 @@ pipeImg.src = 'testest.png';
 facilBtn.addEventListener('click', () => {
   pipeGap = 250; // fácil
   nomepontos = "Gaypoints🌈:";
-  document.body.style.background = "url('facil.png') no-repeat center center";
+  pipeImg.src = 'canofacil4.png';
+  document.body.style.background = "url('backgroudfacil.png') no-repeat center center";
   document.body.style.backgroundSize = "cover";
   loop();
   startScreen.style.display = 'none';
