@@ -1,0 +1,15 @@
+body {
+  background-color: #000000; /* Céu azul */
+  display: flex;
+  background: url('backgroud.png') no-repeat center center fixed;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+}
+
+canvas {
+  display: block;
+  width: 100vw;
+  height: 100vh;
+}
