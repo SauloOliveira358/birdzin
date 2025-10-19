@@ -1,3 +1,7 @@
+/* ——— fonte para o título ——— */
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800&display=swap');
+
+/* ====== código original (inalterado) ====== */
 #bgVideo {
   position: fixed;   /* ocupa a viewport inteira */
   top: 0;
@@ -33,4 +37,74 @@ canvas {
   color: #fff;
   cursor: pointer;
   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+}
+
+/* ====== adições para o título e botões do startScreen ====== */
+
+/* Título do jogo */
+#startScreen {
+  background: rgba(0, 0, 0, 0.25) !important; /* ajuste a opacidade a gosto */
+}
+
+#startScreen .game-title {
+  margin: 0 0 1.5rem 0;
+  padding: .2rem 1rem;
+  font-family: 'Orbitron', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; /* <<< nova fonte */
+  font-weight: 800;
+  font-size: clamp(2rem, 5vw, 4rem);
+  letter-spacing: 1.2px;
+  color: #ffffff;
+  text-align: center;
+  text-shadow: 0 10px 35px rgba(0,0,0,.6), 0 0 12px rgba(173,216,230,.45);
+  backdrop-filter: blur(2px);
+}
+
+/* Base dos botões do startScreen */
+#startScreen .btn {
+  border: 0;
+  border-radius: 14px;
+  padding: 1rem 2.5rem;
+  cursor: pointer;
+  line-height: 1;
+  letter-spacing: .4px;
+  box-shadow: 0 10px 24px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.35);
+  transition: transform .08s ease, box-shadow .2s ease, filter .2s ease;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Cores por dificuldade */
+#startScreen #facil.btn {
+  background: linear-gradient(180deg, rgba(117, 255, 199, .95), rgba(34, 181, 135, .95));
+  color: #052b23;
+  box-shadow: 0 14px 34px rgba(34, 181, 135, .45), inset 0 1px 0 rgba(255,255,255,.35);
+}
+
+#startScreen #medio.btn {
+  background: linear-gradient(180deg, rgba(255, 230, 140, .98), rgba(247, 162, 35, .98));
+  color: #3a2200;
+  box-shadow: 0 14px 34px rgba(247, 162, 35, .45), inset 0 1px 0 rgba(255,255,255,.35);
+}
+
+#startScreen #dificil.btn {
+  background: linear-gradient(180deg, rgba(255, 115, 115, .98), rgba(199, 30, 78, .98));
+  color: #ffffff;
+  box-shadow: 0 14px 34px rgba(199, 30, 78, .5), inset 0 1px 0 rgba(255,255,255,.35);
+}
+
+/* Interações */
+#startScreen .btn:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.03);
+}
+
+#startScreen .btn:active {
+  transform: translateY(0);
+  box-shadow: 0 8px 18px rgba(0,0,0,.45) inset;
+  filter: brightness(.98);
+}
+
+#startScreen .btn:focus-visible {
+  outline: 3px solid rgba(255,255,255,.9);
+  outline-offset: 3px;
 }
