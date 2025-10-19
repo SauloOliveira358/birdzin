@@ -251,13 +251,6 @@ function update() {
   ctx.fillStyle = 'rgba(255,255,255,0.95)';
   ctx.fillText('Pressione espaço para reiniciar', canvas.width / 2, subY);
 
-  const tes = titleY + Math.max(60, titleSize * 0.6);
-  const tess = Math.max(18, Math.min(34, canvas.width * 0.025));
-  ctx.font = `500 ${subSize}px Arial, sans-serif`;
-  ctx.shadowBlur = 10;
-  ctx.fillStyle = 'rgba(255,255,255,0.95)';
-  ctx.fillText('Sua pontuação é: ',nomepontos, canvas.width / 2, tes);
-
   ctx.restore();
 
   // mostra o botão Menu
@@ -288,6 +281,15 @@ function loop() {
   requestAnimationFrame(loop);
   
 }
+// === Música de fundo ===
+const bgMusic = new Audio('musica.mp3');
+bgMusic.loop = true;   
+bgMusic.volume = 0.5;  
+window.addEventListener('load', () => {
+  bgMusic.play().catch(() => {
+    console.log('Autoplay bloqueado pelo navegador. A música iniciará ao primeiro clique.');
+  });
+});
 
 // === Controle de teclas ===
 document.addEventListener('keydown', (e) => {
