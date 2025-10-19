@@ -23,20 +23,42 @@ canvas {
 #voltar {
   position: fixed;
   left: 50%;
-  top: 50%;
+  top: 58%;
   transform: translate(-50%, -50%);
   display: none;
-  /* mostrado via JS somente quando necessário */
   z-index: 9999;
-  /* acima do startScreen (z-index:10) */
-  font-size: 2rem;
-  padding: 1rem 2rem;
-  border: none;
-  border-radius: 8px;
-  background: #ff6b6b;
+
+  font-size: clamp(1rem, 2.2vw, 1.6rem);
+  padding: 1rem 2.4rem;
+  border: 0;
+  border-radius: 14px;
+
+  /* glassy + leve gradiente */
+  background: linear-gradient(180deg, rgba(255,105,105,.92), rgba(245,70,70,.92));
   color: #fff;
+  backdrop-filter: blur(6px) saturate(120%);
+  -webkit-backdrop-filter: blur(6px) saturate(120%);
+  box-shadow: 0 14px 32px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.35);
+
   cursor: pointer;
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+  transition: transform .08s ease, filter .2s ease, box-shadow .2s ease;
+  user-select: none;
+}
+
+#voltar:hover {
+  transform: translate(-50%, -50%) scale(1.03);
+  filter: brightness(1.05);
+}
+
+#voltar:active {
+  transform: translate(-50%, -50%) scale(.99);
+  box-shadow: 0 8px 18px rgba(0,0,0,.45) inset;
+  filter: brightness(.97);
+}
+
+#voltar:focus-visible {
+  outline: 3px solid rgba(255,255,255,.9);
+  outline-offset: 3px;
 }
 
 /* ====== adições para o título e botões do startScreen ====== */

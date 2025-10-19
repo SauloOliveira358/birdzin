@@ -218,15 +218,43 @@ function drawScore() {
 
 // === Atualiza o jogo ===
 function update() {
-  if (gameOver) {
-    ctx.fillStyle = 'red';
-    ctx.font = '100px Arial';
-    ctx.fillText('Game Over💀', Math.max(20, canvas.width * 0.25), Math.max(120, canvas.height * 0.3));
-    ctx.font = '30px Arial';
-    ctx.fillText('Pressione espaço para reiniciar', Math.max(20, canvas.width * 0.25), Math.max(180, canvas.height * 0.3 + 80));
-    voltarBtn && (voltarBtn.style.display = 'block');
-    return; // <<< FECHA O IF e sai da função
-  }         // <<< ESTA CHAVE FALTAVA NO SEU CÓDIGO
+ if (gameOver) {
+  // fundo suavemente escurecido
+  ctx.save();
+  ctx.fillStyle = 'rgba(0,0,0,0.35)';
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+  // centralização e sombras
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  ctx.shadowColor = 'rgba(0,0,0,0.55)';
+  ctx.shadowBlur = 20;
+
+  // Título responsivo com gradiente
+  const titleY = canvas.height * 0.35;
+  const titleSize = Math.max(56, Math.min(120, canvas.width * 0.1));
+  const grad = ctx.createLinearGradient(0, titleY - 60, 0, titleY + 60);
+  grad.addColorStop(0, '#ff4d4f');
+  grad.addColorStop(1, '#ff9a9e');
+
+  ctx.font = `bold ${titleSize}px Orbitron, Arial, sans-serif`;
+  ctx.fillStyle = grad;
+  ctx.fillText('Game Over', canvas.width / 2, titleY);
+
+  // Subtítulo responsivo
+  const subY = titleY + Math.max(60, titleSize * 0.6);
+  const subSize = Math.max(18, Math.min(34, canvas.width * 0.025));
+  ctx.font = `500 ${subSize}px Arial, sans-serif`;
+  ctx.shadowBlur = 10;
+  ctx.fillStyle = 'rgba(255,255,255,0.95)';
+  ctx.fillText('Pressione espaço para reiniciar', canvas.width / 2, subY);
+
+  ctx.restore();
+
+  // mostra o botão Menu
+  voltarBtn && (voltarBtn.style.display = 'block');
+  return;
+}
 
   bird.update();
   updatePipes();
