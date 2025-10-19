@@ -7,13 +7,16 @@ function resizeCanvas() {
   canvas.width = window.innerWidth;
   canvas.height = window.innerHeight;
 }
+resizeCanvas();
+window.addEventListener('resize', resizeCanvas);
 
 const startScreen = document.getElementById('startScreen');
 const startBtn = document.getElementById('startBtn');
-const facilBtn = document.getElementById('facil'); // botão fácil
-const medioBtn = document.getElementById('medio'); // botão médio
+const facilBtn = document.getElementById('facil');   // botão fácil
+const medioBtn = document.getElementById('medio');   // botão médio
 const dificilBtn = document.getElementById('dificil'); // botão difícil
 const voltarBtn = document.getElementById('voltar'); // botão voltar
+
 // Pega o contexto 2D do canvas
 const ctx = canvas.getContext('2d');
 
@@ -34,43 +37,70 @@ const gravity = 0.25;
 // Variável para controlar se o jogo acabou ou não
 let gameOver = false;
 
+// Controle se o loop já foi iniciado (evita 2x loop)
+let running = false;
+
 // Imagem do cano
-let pipeImg = new Image();
+const pipeImg = new Image();
 pipeImg.src = 'testest.png';
 
+// --- Dificuldades ---
+// Pega o vídeo de fundo
+const bgVideo = document.getElementById('bgVideo');
 
-
-
+// Função pra trocar o vídeo
+function changeVideo(src) {
+  bgVideo.src = src;
+  bgVideo.currentTime = 0; // reinicia o vídeo do começo
+  bgVideo.play().catch(() => {}); // evita erro de autoplay
+}
 
 // --- Dificuldades ---
-facilBtn.addEventListener('click', () => {
+function startGame() {
+  if (running) return;
+  running = true;
+  startScreen && (startScreen.style.display = 'none');
+  loop();
+}
+
+facilBtn && facilBtn.addEventListener('click', () => {
   pipeGap = 250; // fácil
   nomepontos = "Gaypoints🌈:";
+  nomepontos = "Pontos:";
   pipeImg.src = 'canofacil4.png';
-  document.body.style.background = "url('backgroudfacil.png') no-repeat center center";
-  document.body.style.backgroundSize = "cover";
-  loop();
-  startScreen.style.display = 'none';
+
+  // 🔥 Fundo do modo fácil
+  changeVideo('backgroudfacil.mp4');
+
+  startGame();
 });
 
-medioBtn.addEventListener('click', () => {
+medioBtn && medioBtn.addEventListener('click', () => {
   pipeGap = 180; // médio
-  loop();
-  startScreen.style.display = 'none';
+  nomepontos = "Pontos:";
+  pipeImg.src = 'pipe.png';
+
+  // 🔥 Fundo do modo médio
+  changeVideo('backgroud.mp4');
+
+  startGame();
 });
 
-dificilBtn.addEventListener('click', () => {
+dificilBtn && dificilBtn.addEventListener('click', () => {
   pipeGap = 120; // difícil
-  loop();
-  startScreen.style.display = 'none';
-});
+  nomepontos = "Pontos:";
+  pipeImg.src = 'testest.png';
 
+  // 🔥 Fundo do modo difícil (mesmo vídeo do médio)
+  changeVideo('backgroud.mp4');
+
+  startGame();
+});
+// Botão "Menu" — volta para a tela inicial
 voltarBtn.addEventListener('click', () => {
   location.reload();
-});
-// Ajusta o tamanho do canvas na inicialização e ao redimensionar
-resizeCanvas();
-window.addEventListener('resize', resizeCanvas);
+  });
+
 
 // === Objeto do Pássaro (Bird) ===
 const bird = {
@@ -96,8 +126,16 @@ const bird = {
     this.speed += gravity;
     this.y += this.speed;
 
+    // bateu no chão
     if (this.y + this.h >= canvas.height) {
+      this.y = canvas.height - this.h;
       gameOver = true;
+    }
+
+    // bateu no teto
+    if (this.y < 0) {
+      this.y = 0;
+      this.speed = 0;
     }
   },
 
@@ -108,12 +146,15 @@ const bird = {
 
 // === Função que cria os canos ===
 function createPipe() {
-  const top = Math.random() * (canvas.height - pipeGap - 50) + 20;
+  const minTop = 20;
+  const maxTop = canvas.height - pipeGap - 50;
+  const top = Math.random() * Math.max(10, maxTop - minTop) + minTop;
 
   pipes.push({
-    x: canvas.width / 1.5 - pipeWidth / 1.5,
+    x: canvas.width, // nasce fora da direita da tela
     top,
-    bottom: top + pipeGap
+    bottom: top + pipeGap,
+    scored: false
   });
 }
 
@@ -123,21 +164,29 @@ function updatePipes() {
     createPipe();
   }
 
-  pipes.forEach((pipe, i) => {
+  for (let i = pipes.length - 1; i >= 0; i--) {
+    const pipe = pipes[i];
     pipe.x -= 2;
 
-    if (
-      bird.x + bird.w > pipe.x &&
-      bird.x < pipe.x + pipeWidth &&
-      (bird.y < pipe.top || bird.y + bird.h > pipe.bottom)
-    ) {
+    // colisão
+    const collideX = bird.x + bird.w > pipe.x && bird.x < pipe.x + pipeWidth;
+    const collideY = bird.y < pipe.top || bird.y + bird.h > pipe.bottom;
+    if (collideX && collideY) {
       gameOver = true;
     }
 
+    // pontuar quando passar do cano (só uma vez por cano)
+    if (!pipe.scored && pipe.x + pipeWidth < bird.x) {
+      score++;
+      pipe.scored = true;
+      if (score > ultimoscore) ultimoscore = score;
+    }
+
+    // remove fora da tela
     if (pipe.x + pipeWidth < 0) {
       pipes.splice(i, 1);
     }
-  });
+  }
 }
 
 // === Desenha os canos ===
@@ -148,9 +197,10 @@ function drawPipes() {
 
     // Cano de baixo (invertido)
     ctx.save();
-    ctx.translate(pipe.x + pipeWidth / 2, pipe.bottom + (canvas.height - pipe.bottom) / 2);
+    const bottomHeight = canvas.height - pipe.bottom;
+    ctx.translate(pipe.x + pipeWidth / 2, pipe.bottom + bottomHeight / 2);
     ctx.scale(1, -1);
-    ctx.drawImage(pipeImg, -pipeWidth / 2, -(canvas.height - pipe.bottom) / 2, pipeWidth, canvas.height - pipe.bottom);
+    ctx.drawImage(pipeImg, -pipeWidth / 2, -bottomHeight / 2, pipeWidth, bottomHeight);
     ctx.restore();
   });
 }
@@ -171,28 +221,18 @@ function update() {
   if (gameOver) {
     ctx.fillStyle = 'red';
     ctx.font = '100px Arial';
-    ctx.fillText('Game Over💀', 500, 200);
+    ctx.fillText('Game Over💀', Math.max(20, canvas.width * 0.25), Math.max(120, canvas.height * 0.3));
     ctx.font = '30px Arial';
-    ctx.fillText('Pressione espaço para reiniciar', 560, 300);
-    
-    
-    voltarBtn.style.display = 'block';
-    
-    return;
-  }
+    ctx.fillText('Pressione espaço para reiniciar', Math.max(20, canvas.width * 0.25), Math.max(180, canvas.height * 0.3 + 80));
+    voltarBtn && (voltarBtn.style.display = 'block');
+    return; // <<< FECHA O IF e sai da função
+  }         // <<< ESTA CHAVE FALTAVA NO SEU CÓDIGO
 
   bird.update();
   updatePipes();
-if(frames == 450){
-  score++;
-}
-  if (frames >= 451) {
-   
-    if(String(frames).endsWith('50')){
-      score++;
-    }
-    
-  }
+
+  // Exemplo de pontuação temporal: a cada 90 frames (opcional)
+  // if (frames % 90 === 0) score++;
 }
 
 // === Desenha o jogo ===
@@ -209,24 +249,21 @@ function loop() {
   update();
   frames++;
   requestAnimationFrame(loop);
+  
 }
 
 // === Controle de teclas ===
 document.addEventListener('keydown', (e) => {
   if (e.code === 'Space') {
     if (gameOver) {
-      voltarBtn.style.display = 'none';
+      voltarBtn && (voltarBtn.style.display = 'none');
       pipes.length = 0;
       bird.y = 150;
       bird.speed = 0;
-
-      if (score > ultimoscore) {
-        ultimoscore = score;
-      }
-
       score = 0;
-      gameOver = false;
       frames = 0;
+      gameOver = false;
+      // o loop já está rodando; não reinicie outro
     } else {
       bird.flap();
     }
