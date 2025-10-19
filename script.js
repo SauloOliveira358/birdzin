@@ -285,11 +285,12 @@ function loop() {
 const bgMusic = new Audio('musica.mp3');
 bgMusic.loop = true;   
 bgMusic.volume = 0.5;  
-window.addEventListener('load', () => {
-  bgMusic.play().catch(() => {
-    console.log('Autoplay bloqueado pelo navegador. A música iniciará ao primeiro clique.');
-  });
+document.addEventListener('click', () => {
+  if (bgMusic.paused) {
+    bgMusic.play().catch(() => {});
+  }
 });
+
 
 // === Controle de teclas ===
 document.addEventListener('keydown', (e) => {
