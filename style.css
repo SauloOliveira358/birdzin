@@ -1,6 +1,13 @@
 /* ——— fonte para o título ——— */
 @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800&display=swap');
 
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow: hidden;      /* 🔒 some as barras de rolagem */
+}
+
 /* ====== código original (inalterado) ====== */
 #bgVideo {
   position: fixed;   /* ocupa a viewport inteira */

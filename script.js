@@ -2,13 +2,15 @@
 let nomepontos = "Pontos:";
 const canvas = document.getElementById('gameCanvas');
 
-// Função para ajustar o tamanho do canvas
 function resizeCanvas() {
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
+  const vw = Math.max(document.documentElement.clientWidth,  window.innerWidth  || 0);
+  const vh = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
+  canvas.width  = vw;
+  canvas.height = vh;
 }
 resizeCanvas();
 window.addEventListener('resize', resizeCanvas);
+
 
 const startScreen = document.getElementById('startScreen');
 const startBtn = document.getElementById('startBtn');
@@ -78,7 +80,7 @@ facilBtn && facilBtn.addEventListener('click', () => {
 medioBtn && medioBtn.addEventListener('click', () => {
   pipeGap = 180; // médio
   nomepontos = "Pontos:";
-  pipeImg.src = 'pipe.png';
+  pipeImg.src = 'testest.png';
 
   // 🔥 Fundo do modo médio
   changeVideo('backgroud.mp4');
@@ -248,6 +250,13 @@ function update() {
   ctx.shadowBlur = 10;
   ctx.fillStyle = 'rgba(255,255,255,0.95)';
   ctx.fillText('Pressione espaço para reiniciar', canvas.width / 2, subY);
+
+  const tes = titleY + Math.max(60, titleSize * 0.6);
+  const tess = Math.max(18, Math.min(34, canvas.width * 0.025));
+  ctx.font = `500 ${subSize}px Arial, sans-serif`;
+  ctx.shadowBlur = 10;
+  ctx.fillStyle = 'rgba(255,255,255,0.95)';
+  ctx.fillText('Sua pontuação é: ',nomepontos, canvas.width / 2, tes);
 
   ctx.restore();
 
