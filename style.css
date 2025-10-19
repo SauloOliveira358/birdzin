@@ -1,12 +1,12 @@
-body {
-  background-color: #000000;
-  /* Céu azul */
-  display: flex;
-  background: url('backgroud.png') no-repeat center center fixed;
-  justify-content: center;
-  align-items: center;
+#bgVideo {
+  position: fixed;   /* ocupa a viewport inteira */
+  top: 0;
+  left: 0;
+  width: 100vw;
   height: 100vh;
-  margin: 0;
+  object-fit: cover; /* cobre a tela sem distorcer */
+  z-index: -1;       /* fica atrás do canvas */
+  pointer-events: none; /* clique passa direto para o jogo */
 }
 
 canvas {
