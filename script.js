@@ -2,7 +2,9 @@
 let nomepontos = "Pontos:";
 const canvas = document.getElementById('gameCanvas');  // canvas do jogo
 const bgVideo = document.getElementById('bgVideo');  // vídeo de fundo
+let som = false; // so pra tocar o som do pulo só quando o jogo começar
 
+// Função para redimensionar o canvas para preencher a tela
 
 function resizeCanvas() {
   const vw = Math.max(document.documentElement.clientWidth,  window.innerWidth  || 0);
@@ -284,6 +286,7 @@ function draw() {
 
 // === Loop principal ===
 function loop() {
+  som = true;
   draw();
   update();
   frames++;
@@ -317,7 +320,9 @@ document.addEventListener('keydown', (e) => {
     } else {
       bird.flap();
       const somMagico = new Audio('somdepulo.mp3'); //som do pulo
+      if(som){
       somMagico.play().catch(() => {});
+      }
     }
   }
 });
