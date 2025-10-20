@@ -335,7 +335,7 @@ function update() {
     ctx.shadowBlur = 20;
 
     // título
-    const titleY = canvas.height * 0.35;
+    const titleY = canvas.height * 0.25;
     const titleSize = Math.max(56, Math.min(120, canvas.width * 0.1));
     const grad = ctx.createLinearGradient(0, titleY - 60, 0, titleY + 60);
     grad.addColorStop(0, '#ff4d4f');
@@ -419,10 +419,7 @@ document.addEventListener('keydown', (e) => {
       totalPipesCriados = 0; // reinicia contagem para a próxima 5ª coluna
     } else {
       bird.flap();
-      const somMagico = new Audio('somdepulo.mp3'); // som do pulo
-      if (som) {
-        somMagico.play().catch(() => {});
-      }
+    
     }
   }
 });
