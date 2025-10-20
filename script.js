@@ -1,13 +1,18 @@
 // Seleciona o elemento <canvas> pelo ID 'gameCanvas' do HTML
 let nomepontos = "Pontos:";
-const canvas = document.getElementById('gameCanvas');
+const canvas = document.getElementById('gameCanvas');  // canvas do jogo
+const bgVideo = document.getElementById('bgVideo');  // vídeo de fundo
+
 
 function resizeCanvas() {
   const vw = Math.max(document.documentElement.clientWidth,  window.innerWidth  || 0);
   const vh = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
   canvas.width  = vw;
   canvas.height = vh;
+
+
 }
+
 resizeCanvas();
 window.addEventListener('resize', resizeCanvas);
 
@@ -26,10 +31,10 @@ const ctx = canvas.getContext('2d');
 const pipes = [];
 
 // Largura fixa de cada cano
-const pipeWidth = 50;
+const pipeWidth = 150;
 
 // Espaço vertical entre o cano de cima e o cano de baixo
-let pipeGap = 180;
+let pipeGap = 280;
 
 let frames = 0;
 
@@ -48,7 +53,7 @@ pipeImg.src = 'testest.png';
 
 // --- Dificuldades ---
 // Pega o vídeo de fundo
-const bgVideo = document.getElementById('bgVideo');
+
 
 // Função pra trocar o vídeo
 function changeVideo(src) {
@@ -66,9 +71,8 @@ function startGame() {
 }
 
 facilBtn && facilBtn.addEventListener('click', () => {
-  pipeGap = 250; // fácil
+  pipeGap = 300; // fácil
   nomepontos = "Gaypoints🌈:";
-  nomepontos = "Pontos:";
   pipeImg.src = 'canofacil4.png';
 
   // 🔥 Fundo do modo fácil
@@ -78,7 +82,7 @@ facilBtn && facilBtn.addEventListener('click', () => {
 });
 
 medioBtn && medioBtn.addEventListener('click', () => {
-  pipeGap = 180; // médio
+  pipeGap = 250; // médio
   nomepontos = "Pontos:";
   pipeImg.src = 'testest.png';
 
@@ -89,7 +93,7 @@ medioBtn && medioBtn.addEventListener('click', () => {
 });
 
 dificilBtn && dificilBtn.addEventListener('click', () => {
-  pipeGap = 120; // difícil
+  pipeGap = 200; // difícil
   nomepontos = "Pontos:";
   pipeImg.src = 'testest.png';
 
@@ -108,15 +112,15 @@ voltarBtn.addEventListener('click', () => {
 const bird = {
   x: 50,
   y: 150,
-  w: 50,
-  h: 50,
+  w: 100,
+  h: 100,
   speed: 0,
-  jump: 4.6,
+  jump: 6,
 
   // GIF animado do pássaro
   img: (() => {
     const i = new Image();
-    i.src = 'teste.gif'; // seu arquivo GIF animado
+    i.src = 'birdzin.gif'; // seu arquivo GIF animado
     return i;
   })(),
 
@@ -162,7 +166,7 @@ function createPipe() {
 
 // === Atualiza os canos ===
 function updatePipes() {
-  if (frames % 100 === 0) {
+  if (frames % 200 === 0) {
     createPipe();
   }
 
@@ -213,7 +217,7 @@ let ultimoscore = 0;
 
 function drawScore() {
   ctx.fillStyle = 'white';
-  ctx.font = '24px Arial';
+  ctx.font = '30px Arial';
   ctx.fillText(`${nomepontos} ${score}`, 10, 30);
   ctx.fillText(`Recorde: ${ultimoscore}`, 10, 60);
 }
@@ -243,6 +247,7 @@ function update() {
   ctx.fillStyle = grad;
   ctx.fillText('Game Over', canvas.width / 2, titleY);
 
+
   // Subtítulo responsivo
   const subY = titleY + Math.max(60, titleSize * 0.6);
   const subSize = Math.max(18, Math.min(34, canvas.width * 0.025));
@@ -250,6 +255,10 @@ function update() {
   ctx.shadowBlur = 10;
   ctx.fillStyle = 'rgba(255,255,255,0.95)';
   ctx.fillText('Pressione espaço para reiniciar', canvas.width / 2, subY);
+  const linha2Y = subY + subSize + 10; // +10 para dar espaçamento
+ctx.fillText(`${nomepontos} ${score}`, canvas.width / 2, linha2Y);
+
+
 
   ctx.restore();
 
@@ -294,6 +303,7 @@ document.addEventListener('click', () => {
 
 // === Controle de teclas ===
 document.addEventListener('keydown', (e) => {
+  
   if (e.code === 'Space') {
     if (gameOver) {
       voltarBtn && (voltarBtn.style.display = 'none');
@@ -306,6 +316,8 @@ document.addEventListener('keydown', (e) => {
       // o loop já está rodando; não reinicie outro
     } else {
       bird.flap();
+      const somMagico = new Audio('somdepulo.mp3'); //som do pulo
+      somMagico.play().catch(() => {});
     }
   }
 });

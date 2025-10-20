@@ -1,23 +1,29 @@
 /* ——— fonte para o título ——— */
 @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@600;800&display=swap');
 
-html, body {
+html,
+body {
   margin: 0;
   padding: 0;
   height: 100%;
-  overflow: hidden;      /* 🔒 some as barras de rolagem */
+  overflow: hidden;
+  /* 🔒 some as barras de rolagem */
 }
 
 /* ====== código original (inalterado) ====== */
 #bgVideo {
-  position: fixed;   /* ocupa a viewport inteira */
+  position: fixed;
+  /* ocupa a viewport inteira */
   top: 0;
   left: 0;
   width: 100vw;
   height: 100vh;
-  object-fit: cover; /* cobre a tela sem distorcer */
-  z-index: -1;       /* fica atrás do canvas */
-  pointer-events: none; /* clique passa direto para o jogo */
+  object-fit: cover;
+  /* cobre a tela sem distorcer */
+  z-index: -1;
+  /* fica atrás do canvas */
+  pointer-events: none;
+  /* clique passa direto para o jogo */
 }
 
 canvas {
@@ -30,7 +36,7 @@ canvas {
 #voltar {
   position: fixed;
   left: 50%;
-  top: 58%;
+  top: 60%;
   transform: translate(-50%, -50%);
   display: none;
   z-index: 9999;
@@ -41,11 +47,11 @@ canvas {
   border-radius: 14px;
 
   /* glassy + leve gradiente */
-  background: linear-gradient(180deg, rgba(255,105,105,.92), rgba(245,70,70,.92));
+  background: linear-gradient(180deg, rgba(255, 105, 105, .92), rgba(245, 70, 70, .92));
   color: #fff;
   backdrop-filter: blur(6px) saturate(120%);
   -webkit-backdrop-filter: blur(6px) saturate(120%);
-  box-shadow: 0 14px 32px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.35);
+  box-shadow: 0 14px 32px rgba(0, 0, 0, .35), inset 0 1px 0 rgba(255, 255, 255, .35);
 
   cursor: pointer;
   transition: transform .08s ease, filter .2s ease, box-shadow .2s ease;
@@ -59,12 +65,12 @@ canvas {
 
 #voltar:active {
   transform: translate(-50%, -50%) scale(.99);
-  box-shadow: 0 8px 18px rgba(0,0,0,.45) inset;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, .45) inset;
   filter: brightness(.97);
 }
 
 #voltar:focus-visible {
-  outline: 3px solid rgba(255,255,255,.9);
+  outline: 3px solid rgba(255, 255, 255, .9);
   outline-offset: 3px;
 }
 
@@ -72,19 +78,21 @@ canvas {
 
 /* Título do jogo */
 #startScreen {
-  background: rgba(0, 0, 0, 0.25) !important; /* ajuste a opacidade a gosto */
+  background: rgba(0, 0, 0, 0.25) !important;
+  /* ajuste a opacidade a gosto */
 }
 
 #startScreen .game-title {
   margin: 0 0 1.5rem 0;
   padding: .2rem 1rem;
-  font-family: 'Orbitron', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif; /* <<< nova fonte */
+  font-family: 'Orbitron', system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  /* <<< nova fonte */
   font-weight: 800;
   font-size: clamp(2rem, 5vw, 4rem);
   letter-spacing: 1.2px;
   color: #ffffff;
   text-align: center;
-  text-shadow: 0 10px 35px rgba(0,0,0,.6), 0 0 12px rgba(173,216,230,.45);
+  text-shadow: 0 10px 35px rgba(0, 0, 0, .6), 0 0 12px rgba(173, 216, 230, .45);
   backdrop-filter: blur(2px);
 }
 
@@ -96,7 +104,7 @@ canvas {
   cursor: pointer;
   line-height: 1;
   letter-spacing: .4px;
-  box-shadow: 0 10px 24px rgba(0,0,0,.35), inset 0 1px 0 rgba(255,255,255,.35);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, .35), inset 0 1px 0 rgba(255, 255, 255, .35);
   transition: transform .08s ease, box-shadow .2s ease, filter .2s ease;
   user-select: none;
   -webkit-tap-highlight-color: transparent;
@@ -106,19 +114,19 @@ canvas {
 #startScreen #facil.btn {
   background: linear-gradient(180deg, rgba(117, 255, 199, .95), rgba(34, 181, 135, .95));
   color: #052b23;
-  box-shadow: 0 14px 34px rgba(34, 181, 135, .45), inset 0 1px 0 rgba(255,255,255,.35);
+  box-shadow: 0 14px 34px rgba(34, 181, 135, .45), inset 0 1px 0 rgba(255, 255, 255, .35);
 }
 
 #startScreen #medio.btn {
   background: linear-gradient(180deg, rgba(255, 230, 140, .98), rgba(247, 162, 35, .98));
   color: #3a2200;
-  box-shadow: 0 14px 34px rgba(247, 162, 35, .45), inset 0 1px 0 rgba(255,255,255,.35);
+  box-shadow: 0 14px 34px rgba(247, 162, 35, .45), inset 0 1px 0 rgba(255, 255, 255, .35);
 }
 
 #startScreen #dificil.btn {
   background: linear-gradient(180deg, rgba(255, 115, 115, .98), rgba(199, 30, 78, .98));
   color: #ffffff;
-  box-shadow: 0 14px 34px rgba(199, 30, 78, .5), inset 0 1px 0 rgba(255,255,255,.35);
+  box-shadow: 0 14px 34px rgba(199, 30, 78, .5), inset 0 1px 0 rgba(255, 255, 255, .35);
 }
 
 /* Interações */
@@ -129,11 +137,11 @@ canvas {
 
 #startScreen .btn:active {
   transform: translateY(0);
-  box-shadow: 0 8px 18px rgba(0,0,0,.45) inset;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, .45) inset;
   filter: brightness(.98);
 }
 
 #startScreen .btn:focus-visible {
-  outline: 3px solid rgba(255,255,255,.9);
+  outline: 3px solid rgba(255, 255, 255, .9);
   outline-offset: 3px;
 }
