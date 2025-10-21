@@ -4,15 +4,35 @@ const canvas  = document.getElementById('gameCanvas');  // canvas do jogo
 const bgVideo = document.getElementById('bgVideo');     // vídeo de fundo
 let som = false; // só pra tocar o som do pulo quando o jogo começar
 
-// Redimensiona o canvas para preencher a tela
-function resizeCanvas() {
-  const vw = Math.max(document.documentElement.clientWidth,  window.innerWidth  || 0);
-  const vh = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
-  canvas.width  = vw;
-  canvas.height = vh;
+// Ajusta o canvas para o tamanho real do vídeo de fundo
+function resizeCanvasToVideo() {
+  const vw = bgVideo.videoWidth;
+  const vh = bgVideo.videoHeight;
+
+  if (vw && vh) {
+    const videoRatio = vw / vh;
+    const windowRatio = window.innerWidth / window.innerHeight;
+
+    // cobre toda a tela sem distorcer, igual ao object-fit: cover
+    if (videoRatio > windowRatio) {
+      // vídeo é mais largo → ajusta pela altura
+      canvas.height = window.innerHeight;
+      canvas.width = videoRatio * window.innerHeight;
+    } else {
+      // vídeo é mais alto → ajusta pela largura
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerWidth / videoRatio;
+    }
+  } else {
+    // fallback se o vídeo ainda não carregou
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
 }
-resizeCanvas();
-window.addEventListener('resize', resizeCanvas);
+
+// Chama quando o vídeo carrega e quando a janela é redimensionada
+bgVideo.addEventListener('loadedmetadata', resizeCanvasToVideo);
+window.addEventListener('resize', resizeCanvasToVideo);
 
 const startScreen = document.getElementById('startScreen');
 const startBtn    = document.getElementById('startBtn');
